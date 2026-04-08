@@ -1,8 +1,28 @@
-{
+    {
   "tasks": [
     {
       "layers": [
-        ["d.vect", "map=contour"]
+        [
+          "d.rast",
+          "map=runoff_risk"
+        ],
+        [
+          "d.rast",
+          "map=flow_accum",
+          "values=50-9999"
+        ],
+        [
+          "d.vect",
+          "map=stream_network",
+          "color=blue",
+          "width=2"
+        ],
+        [
+          "d.legend",
+          "raster=runoff_risk",
+          "title=Runoff Risk",
+          "at=5,30,2,15"
+        ]
       ],
       "base": "elev_lid792_1m",
       "scanning_params": {
@@ -12,9 +32,9 @@
         "interpolate": true
       },
       "analyses": "abby_TL.py",
-      "title": "Slope and Contours",
-      "author": "Abby Wiese",
-      "instructions": "Change topography and observe changes in slope and contours."
+      "title": "Landcover & Overland Water Flow",
+      "author": "Abby W",
+      "instructions": "Change the landcover with felt patches. Flow accumulation paths and runoff risk change will change based on landcover. Areas shown in red indicate high runoff risk."
     }
   ]
 }
