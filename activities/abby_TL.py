@@ -9,7 +9,7 @@ import os
 import grass.script as gs
 
 
-def run_flow_analysis(scanned_elev, landcover, env, **kwargs):
+def run_flow_analysis(scanned_elev, env, landcover="landcover_1m", **kwargs):
     """
     Computes flow accumulation and a Manning's n-weighted runoff map.
     Lower roughness i.e. impervious surfaces (roads, developed) = faster runoff.
@@ -55,11 +55,11 @@ def run_flow_analysis(scanned_elev, landcover, env, **kwargs):
     # Divide by roughness: smoother surfaces produce more runoff
     # Pond roughness values are extremely small, exclude from the output
     gs.mapcalc(
-        "runoff = if(landcover_int == 1, null(), abs(flow_accum) / roughness)", env=env
+        f"runoff = if({landcover}== 1, null(), abs(flow_accum) / roughness)", env=env
     )
 
     # Color: low runoff = blue, high runoff = red
-    gs.run_command("r.colors", map="runoff", color="bgyr", env=env)
+    gs.run_command("r.colors", map="runoff", color="bgyr", flags="e", env=env)
 
 
 def main():
